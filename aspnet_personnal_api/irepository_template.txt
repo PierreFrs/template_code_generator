@@ -1,0 +1,12 @@
+using backend.ORM.Models.Domains;
+
+namespace backend.Repositories.Interface;
+
+public interface I[EntityName]Repository<T[EntityName]> where T[EntityName] : [EntityName]
+{
+    Task<T[EntityName]> CreateAsync(T[EntityName] [EntityNameLower]);
+    Task<IList<T[EntityName]>> GetListAsync();
+    Task<T[EntityName]> GetByIdAsync(int id);
+    Task<T[EntityName]> UpdateAsync(T[EntityName] [EntityNameLower]);
+    Task<bool> DeleteAsync(int id);
+}
