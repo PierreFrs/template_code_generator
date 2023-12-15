@@ -1,0 +1,65 @@
+using backend.ORM.DbContext;
+using backend.ORM.Models.Domains;
+using backend.Repositories.Interface;
+using Microsoft.EntityFrameworkCore;
+
+namespace backend.Repositories.Implementation;
+
+public class [EntityName]Repository : I[EntityName]Repository<[EntityName]>
+{
+    private readonly ApplicationDbContext _context;
+    public [EntityName]Repository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<[EntityName]> CreateAsync([EntityName] [EntityNameLower])
+    {
+        _context.Add([EntityNameLower]);
+        await _context.SaveChangesAsync();
+        return [EntityNameLower];
+    }
+
+    public async Task<IList<[EntityName]>> GetListAsync()
+    {
+        return await _context.[EntityName]s.ToListAsync();
+    }
+
+    public async Task<[EntityName]> GetByIdAsync(int id)
+    {
+        return await _context.[EntityName]s
+            .Where(obj => obj.Id == id)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<[EntityName]> UpdateAsync([EntityName] [EntityNameLower])
+    {
+        var existing[EntityName] = await _context.[EntityName]s.FindAsync([EntityNameLower].Id);
+        if (existing[EntityName] == null)
+        {
+            return null;
+        }
+
+        existing[EntityName].[EntityName]Label = [EntityNameLower].[EntityName]Label;
+        existing[EntityName].UpdateDate = [EntityNameLower].UpdateDate;
+
+        _context.Entry(existing[EntityName]).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return existing[EntityName];
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var [EntityNameLower] = await _context.[EntityName]s.FindAsync(id);
+
+        if ([EntityNameLower] == null)
+        {
+            return false;
+        }
+
+        _context.[EntityName]s.Remove([EntityNameLower]);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+}

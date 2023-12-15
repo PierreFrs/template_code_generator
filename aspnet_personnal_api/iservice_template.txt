@@ -1,0 +1,10 @@
+namespace backend.Services.Interface;
+
+public interface I[EntityName]Service<T[EntityName]Dto>
+{
+    Task<T[EntityName]Dto> CreateAsync([PropertiesString]);
+    Task<List<T[EntityName]Dto>> GetListAsync();
+    Task<T[EntityName]Dto> GetByIdAsync(int id);
+    Task<T[EntityName]Dto> UpdateAsync(int id, [PropertiesString]);
+    Task<bool> DeleteAsync(int id);
+}
