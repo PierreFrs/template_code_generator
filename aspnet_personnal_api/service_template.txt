@@ -21,7 +21,7 @@ public class [EntityName]Service<T[EntityName], T[EntityName]Dto> : I[EntityName
         _mapper = mapper;
     }
 
-    public async Task<T[EntityName]Dto> CreateAsync({properties_string})
+    public async Task<T[EntityName]Dto> CreateAsync([Properties])
     {
         var [EntityNameLower] = new T[EntityName]() {{ [EntityName]Label = label, CreationDate = DateTime.Now }};
         var created[EntityName] = await _[EntityNameLower]Repository.CreateAsync([EntityNameLower]);
@@ -41,7 +41,7 @@ public class [EntityName]Service<T[EntityName], T[EntityName]Dto> : I[EntityName
         return _mapper.Map<T[EntityName]Dto>([EntityNameLower]);
     }
 
-    public async Task<T[EntityName]Dto> UpdateAsync(int id, {properties_string})
+    public async Task<T[EntityName]Dto> UpdateAsync(int id, [Properties])
     {
         var existing[EntityName] = await _[EntityNameLower]Repository.GetByIdAsync(id);
         if (existing[EntityName] == null) return null;

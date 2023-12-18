@@ -25,9 +25,9 @@ public class [EntityName]Controller : BaseApiController
     [SwaggerResponse(200, "Creates an object of type [EntityName]", typeof([EntityName]Dto))]
     [SwaggerResponse(401, "Unauthorized")]
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] [PropertiesString])
+    public async Task<IActionResult> Create([Properties])
     {
-        var [EntityNameLower] = await _[EntityNameLower]Service.CreateAsync(label);
+        var [EntityNameLower] = await _[EntityNameLower]Service.CreateAsync([PropertyNames]);
         if ([EntityNameLower] == null) return NotFound();
         return Ok([EntityNameLower]);
     }
@@ -74,9 +74,9 @@ public class [EntityName]Controller : BaseApiController
     [SwaggerResponse(404, "Not Found")]
     [HttpPut]
     [Route("{id:int}")]
-    public async Task<IActionResult> Update(int id, [FromBody] [PropertiesString])
+    public async Task<IActionResult> Update(int id, [Properties])
     {
-        var [EntityNameLower] = await _[EntityNameLower]Service.UpdateAsync(id, label);
+        var [EntityNameLower] = await _[EntityNameLower]Service.UpdateAsync(id, [PropertyNames]);
         if ([EntityNameLower] == null) return NotFound();
         return Ok([EntityNameLower]);
     }

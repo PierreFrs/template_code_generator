@@ -1,0 +1,15 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using RecyOs.ORM.DTO;
+using RecyOs.ORM.Entities;
+
+namespace RecyOs.ORM.Interfaces;
+
+public interface I[EntityName]Repository<T[EntityName]> where T[EntityName] : [EntityName]
+{
+    Task<T[EntityName]> CreateAsync(T[EntityName] [EntityNameLower]);
+    Task<IList<T[EntityName]>> GetListAsync(ContextSession session, bool includeDeleted = false);
+    Task<T[EntityName]> GetByIdAsync(int id, ContextSession session, bool includeDeleted = false);
+    Task<T[EntityName]> UpdateAsync(T[EntityName] [EntityNameLower], ContextSession session);
+    Task<bool> DeleteAsync(int id, ContextSession session);
+}

@@ -1,0 +1,60 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using RecyOs.Helpers;
+using RecyOs.ORM.DTO;
+using RecyOs.ORM.Entities;
+using RecyOs.ORM.Interfaces;
+
+namespace RecyOs.ORM.EFCore.Repository;
+
+public class [EntityName]Repository : BaseDeletableRepository<[EntityName], DataContext> I[EntityName]Repository<[EntityName]>
+{
+    private readonly DataContext _context;
+    public [EntityName]Repository(DataContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<[EntityName]> CreateAsync([EntityName] [EntityNameLower])
+    {
+        _context.Add([EntityNameLower]);
+        await _context.SaveChangesAsync();
+        return [EntityNameLower];
+    }
+
+    public async Task<IList<[EntityName]>> GetListAsync(ContextSession session, bool includeDeleted = false)
+    {
+        return await _context.[EntityName]s.ToListAsync();
+    }
+
+    public async Task<[EntityName]> GetByIdAsync(int id, ContextSession session, bool includeDeleted = false)
+    {
+        return await _context.[EntityName]s
+            .Where(obj => obj.Id == id)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<[EntityName]> UpdateAsync([EntityName] [EntityNameLower], ContextSession session)
+    {
+        var existing[EntityName] = await _context.[EntityName]s.FindAsync([EntityNameLower].Id);
+        if (existing[EntityName] == null)
+        {
+            return null;
+        }
+
+        existing[EntityName].[EntityName]Label = [EntityNameLower].[EntityName]Label;
+        existing[EntityName].UpdateDate = [EntityNameLower].UpdateDate;
+
+        _context.Entry(existing[EntityName]).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return existing[EntityName];
+    }
+
+    public async Task<bool> DeleteAsync(int id, ContextSession session)
+    {
+        await Delete(id, session);
+                return true;
+    }
+}

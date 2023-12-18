@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using AutoMapper;
+using Azure.Core;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Configuration;
+using RecyOs.ORM.DTO;
+using RecyOs.ORM.EFCore.Repository;
+using RecyOs.ORM.Entities;
+using RecyOs.ORM.Interfaces;
+
+namespace RecyOs.ORM.Service;
+
+public class [EntityName]Service<T[EntityName], T[EntityName]Dto> : BaseService,I[EntityName]Service<T[EntityName]Dto>
+    where T[EntityName] : [EntityName], new()
+    where T[EntityName]Dto : [EntityName]Dto, new()
+{
+    private readonly I[EntityName]Repository<T[EntityName]> _[EntityNameLower]Repository;
+    private readonly IMapper _mapper;
+    private readonly IConfiguration _configuration;
+    private readonly ITokenInfoService _tokenInfoService;
+    public [EntityName]Service(ICurrentContextProvider contextProvider, I[EntityName]Repository<T[EntityName]> [EntityNameLower]Repository, IMapper mapper, IConfiguration configuration, ITokenInfoService tokenInfoService) : base(contextProvider)
+    {
+        _[EntityNameLower]Repository = [EntityNameLower]Repository;
+        _mapper = mapper;
+        _configuration = configuration;
+        _tokenInfoService = tokenInfoService;
+    }
+
+    public async Task<T[EntityName]Dto> CreateAsync([Properties])
+    {
+        var currentUser = _tokenInfoService.GetCurrentUserName();
+        
+        var [EntityNameLower] = new T[EntityName]() {{ [EntityName]Label = label, CreationDate = DateTime.Now }};
+        var created[EntityName] = await _[EntityNameLower]Repository.CreateAsync([EntityNameLower]);
+        var [EntityNameLower]Dto = _mapper.Map<T[EntityName]Dto>(created[EntityName]);
+        return [EntityNameLower]Dto;
+    }
+
+    public async Task<List<T[EntityName]Dto>> GetListAsync()
+    {
+        var [EntityNameLower]s = await _[EntityNameLower]Repository.GetListAsync();
+        return _mapper.Map<List<T[EntityName]Dto>>([EntityNameLower]s);
+    }
+
+    public async Task<T[EntityName]Dto> GetByIdAsync(int id)
+    {
+        var [EntityNameLower] = await _[EntityNameLower]Repository.GetByIdAsync(id);
+        return _mapper.Map<T[EntityName]Dto>([EntityNameLower]);
+    }
+
+    public async Task<T[EntityName]Dto> UpdateAsync(int id, [Properties])
+    {
+        var currentUser = _tokenInfoService.GetCurrentUserName();
+        
+        var existing[EntityName] = await _[EntityNameLower]Repository.GetByIdAsync(id);
+        if (existing[EntityName] == null) return null;
+
+        existing[EntityName].[EntityName]Label = label;
+        existing[EntityName].UpdateDate = DateTime.Now;
+
+        var updated[EntityName] = await _[EntityNameLower]Repository.UpdateAsync(existing[EntityName]);
+        var updated[EntityName]Dto = _mapper.Map<T[EntityName]Dto>(updated[EntityName]);
+
+        return updated[EntityName]Dto;
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var existing[EntityName] = await _[EntityNameLower]Repository.GetByIdAsync(id);
+        if (existing[EntityName] == null) return false;
+
+        await _[EntityNameLower]Repository.DeleteAsync(id);
+        return true;
+    }
+}
